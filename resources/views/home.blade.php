@@ -10,9 +10,11 @@
                 <x-button href="/login" class="bg-black text-white">
                     Login
                 </x-button>
-                <x-button href="/register" class="bg-black text-white">
-                    Register
-                </x-button>
+                @if (env("ALLOW_REGISTRATION", false))
+                    <x-button href="/register" class="bg-black text-white">
+                        Register
+                    </x-button>
+                @endif
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@ class Code extends Model
     }
 
     protected $fillable = [
+        'uuid',
         'name',
         'description',
         'tags',

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Code;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use ZipArchive;
 
 
 class CodeController extends Controller
@@ -44,7 +45,9 @@ class CodeController extends Controller
      */
     public function store(StoreCodeRequest $request)
     {
-        $code = Code::create($request->validated());
+        $validated = $request->validated();
+        $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
+        $code = Code::create($validated);
         return redirect()->route('codes.show', ['code' => $code->uuid]);
     }
 
@@ -87,8 +90,10 @@ class CodeController extends Controller
      */
     public function update(UpdateCodeRequest $request, Code $code)
     {
+        $validated = $request->validated();
+        $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
         Code::where("uuid", $code->uuid)->update($request->validated());
-        return redirect()->route('codes.show', ['code' => $code->uuid]);
+        return redirect()->route('codes.show', ['code' => $request->validated()["uuid"]]);
     }
 
     /**
@@ -126,6 +131,26 @@ class CodeController extends Controller
         }
         fclose($f);
         redirect()->route('codes.index');
+    }
+
+    public function exportSvg() {
+        $codes = DB::table("codes")->where("user_id", auth()->user()->id)->get();
+        $zipFileName = "codes-" . date("Y-m-d-G:i:s") . ".zip";
+        $zip = new ZipArchive;
+        $zip->open($zipFileName, ZipArchive::CREATE);
+        $codes->each(function($code) use ($zip) {
+            $code->fg_colorRGB = sscanf($code->fg_color, "#%02x%02x%02x");
+            $code->bg_colorRGB = sscanf($code->bg_color, "#%02x%02x%02x");
+            $qr = QRCode::size(500)->format("svg")->color($code->fg_colorRGB[0], $code->fg_colorRGB[1], $code->fg_colorRGB[2])->backgroundColor($code->bg_colorRGB[0], $code->bg_colorRGB[1], $code->bg_colorRGB[2])->generate(env("APP_URL") . "/r/" . $code->uuid);
+            $qr_name = str_replace(" ", "-", strtolower($code->name)) . '-' . $code->uuid . ".svg";
+            $zip->addFromString($qr_name, $qr);
+        });
+        $zip->close();
+        header("Content-type: application/zip");
+        header("Content-Disposition: attachment; filename=$zipFileName");
+        header("Content-length: " . filesize($zipFileName));
+        readfile("$zipFileName");
+        unlink($zipFileName);
     }
 
     public function import(Request $request) {

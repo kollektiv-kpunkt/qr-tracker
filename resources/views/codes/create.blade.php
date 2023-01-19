@@ -11,7 +11,6 @@
                             $fields = [
                                 "uuid" => [
                                     "label" => "UUID",
-                                    "readonly" => true,
                                     "required" => true,
                                 ],
                                 "name" => [

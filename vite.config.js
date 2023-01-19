@@ -11,4 +11,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        hmr: {
+            protocol: 'wss',
+            host: 'pn69.ddev.site',
+        }
+    },
 });

@@ -24,6 +24,7 @@ class UpdateCodeRequest extends FormRequest
     public function rules()
     {
         return [
+            "uuid" => "required|string|max:36|unique:codes,uuid,{$this->code->id}|regex:/([^\/?]+)\/?$/",
             "name" => "required|string|max:255",
             "description" => "max:255",
             "link" => "required|string|max:255",

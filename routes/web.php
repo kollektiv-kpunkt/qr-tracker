@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get("/codes/export", [CodeController::class, 'export'])->name('codes.export')->middleware(['auth']);
+Route::get("/codes/export-svg", [CodeController::class, 'exportSvg'])->name('codes.exportSvg')->middleware(['auth']);
 Route::resource('codes', CodeController::class)->parameters([
     'codes' => 'code:uuid',
 ])->middleware(['auth']);

@@ -6,6 +6,7 @@
     <x-button-bar>
         <x-button href="{{route('codes.create')}}" class="bg-indigo-900 text-white">{{__('Create new code')}}</x-button>
         <x-button href="/codes/export" class="bg-indigo-100 text-indigo-900">{{__('Export stats')}}</x-button>
+        <x-button href="/codes/export-svg" class="text-green-100 bg-green-900">{{__('Export SVG')}}</x-button>
     </x-button-bar>
 
     @if (count($codes) != 0)
