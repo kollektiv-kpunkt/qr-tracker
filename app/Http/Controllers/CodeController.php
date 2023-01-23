@@ -47,6 +47,9 @@ class CodeController extends Controller
     {
         $validated = $request->validated();
         $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
+        if (!str_starts_with( "http", $validated["link"])) {
+            $validated["link"] = "http://" . $validated["link"];
+        }
         $code = Code::create($validated);
         return redirect()->route('codes.show', ['code' => $code->uuid]);
     }
@@ -92,8 +95,11 @@ class CodeController extends Controller
     {
         $validated = $request->validated();
         $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
-        Code::where("uuid", $code->uuid)->update($request->validated());
-        return redirect()->route('codes.show', ['code' => $request->validated()["uuid"]]);
+        if (!str_starts_with( "http", $validated["link"])) {
+            $validated["link"] = "http://" . $validated["link"];
+        }
+        Code::where("uuid", $code->uuid)->update($validated);
+        return redirect()->route('codes.show', ['code' => $validated["uuid"]]);
     }
 
     /**
