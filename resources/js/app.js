@@ -1,6 +1,6 @@
 import './bootstrap';
 
-import "./components/download-qr.js";
+import "./components/qr.js";
 
 import Alpine from 'alpinejs';
 

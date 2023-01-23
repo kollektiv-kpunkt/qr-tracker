@@ -62,6 +62,10 @@
                     <td class="font-bold">{{__("Unique Scans")}}</td>
                     <td>{{$code->u_scans}}</td>
                 </tr>
+                <tr>
+                    <td class="font-bold">{{__("Copy Link:")}}</td>
+                    <td><a href="{{env("APP_URL") . "/r/" . $code->uuid}}" id="copy-link" class="text-indigo-600 underline">{{env("APP_URL") . "/r/" . $code->uuid}}</a></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -79,6 +83,7 @@
     }
     table td {
         padding: 0.5rem 0.3rem;
+        width: 50%;
     }
 
     table tr:nth-child(odd) {

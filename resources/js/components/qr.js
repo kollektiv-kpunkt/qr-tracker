@@ -1,5 +1,16 @@
 import html2canvas from "html2canvas";
 import { elementToSVG } from 'dom-to-svg'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf({
+    types: [
+        {
+            type: 'info',
+            background: '#302f82',
+            icon: false
+        }
+    ]
+});
 
 if (document.querySelector(".download-qr")) {
     let wrapper = document.querySelector(".download-qr");
@@ -29,3 +40,18 @@ if (document.querySelector(".download-qr")) {
         });
     });
 }
+
+document.getElementById("copy-link").addEventListener("click", function (e) {
+    e.preventDefault();
+    notyf.open({
+        type: 'info',
+        message: 'Link copied to clipboard',
+        duration: 8000,
+        dismissible: true,
+        position: {
+            x: 'center',
+            y: 'top',
+        },
+    });
+    navigator.clipboard.writeText(this.href);
+});
