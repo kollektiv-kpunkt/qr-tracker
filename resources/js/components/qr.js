@@ -41,17 +41,19 @@ if (document.querySelector(".download-qr")) {
     });
 }
 
-document.getElementById("copy-link").addEventListener("click", function (e) {
-    e.preventDefault();
-    notyf.open({
-        type: 'info',
-        message: 'Link copied to clipboard',
-        duration: 8000,
-        dismissible: true,
-        position: {
-            x: 'center',
-            y: 'top',
-        },
+if (document.getElementById("copy-link")) {
+    document.getElementById("copy-link").addEventListener("click", function (e) {
+        e.preventDefault();
+        notyf.open({
+            type: 'info',
+            message: 'Link copied to clipboard',
+            duration: 8000,
+            dismissible: true,
+            position: {
+                x: 'center',
+                y: 'top',
+            },
+        });
+        navigator.clipboard.writeText(this.href);
     });
-    navigator.clipboard.writeText(this.href);
-});
+}
