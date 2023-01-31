@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Code;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 use ZipArchive;
 
 
@@ -42,12 +43,15 @@ class CodeController extends Controller
      *
      * @param  \App\Http\Requests\StoreCodeRequest  $request
      * @return \Illuminate\Http\Response
+     *
+     * @todo Replace QR Code Library with a better one
+     * @body The current QR Code library is not very good. It apparently throws errors randomly (https://github.com/endroid/qr-code/issues/365) maybe we should switch to a better one.
      */
     public function store(StoreCodeRequest $request)
     {
         $validated = $request->validated();
         $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
-        if (!str_starts_with( "http", $validated["link"])) {
+        if (!str_starts_with( $validated["link"], "http" )) {
             $validated["link"] = "http://" . $validated["link"];
         }
         $code = Code::create($validated);
@@ -95,7 +99,7 @@ class CodeController extends Controller
     {
         $validated = $request->validated();
         $validated["uuid"] = urlencode(urldecode($validated["uuid"]));
-        if (!str_starts_with( "http", $validated["link"])) {
+        if (!str_starts_with( $validated["link"], "http" )) {
             $validated["link"] = "http://" . $validated["link"];
         }
         Code::where("uuid", $code->uuid)->update($validated);
