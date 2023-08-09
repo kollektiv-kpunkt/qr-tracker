@@ -64,7 +64,7 @@
                 </tr>
                 <tr>
                     <td class="font-bold">{{__("Copy Link:")}}</td>
-                    <td><a href="{{env("APP_URL") . "/r/" . $code->uuid}}" id="copy-link" class="text-indigo-600 underline">{{env("APP_URL") . "/r/" . $code->uuid}}</a></td>
+                    <td><a href="{{env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid}}" id="copy-link" class="text-indigo-600 underline">{{env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid}}</a></td>
                 </tr>
             </table>
         </div>

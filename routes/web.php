@@ -43,6 +43,6 @@ Route::get('/tools', function () {
 Route::post("/tools/import", [CodeController::class, 'import'])->name('tools.import')->middleware(['auth']);
 Route::delete("/tools/delete", [CodeController::class, 'deleteAll'])->name('tools.delete')->middleware(['auth']);
 
-Route::get('/r/{code:uuid}', [CodeController::class, 'redirect'])->name('codes.redirect');
+Route::get(env("APP_REDIRECT_BASE", "/r/") . '{code:uuid}', [CodeController::class, 'redirect'])->name('codes.redirect');
 
 require __DIR__.'/auth.php';
