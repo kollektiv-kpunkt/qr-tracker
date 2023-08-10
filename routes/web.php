@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+require __DIR__.'/auth.php';
 
 Route::get("/codes/export", [CodeController::class, 'export'])->name('codes.export')->middleware(['auth']);
 Route::get("/codes/export-svg", [CodeController::class, 'exportSvg'])->name('codes.exportSvg')->middleware(['auth']);
@@ -44,5 +45,3 @@ Route::post("/tools/import", [CodeController::class, 'import'])->name('tools.imp
 Route::delete("/tools/delete", [CodeController::class, 'deleteAll'])->name('tools.delete')->middleware(['auth']);
 
 Route::get(env("APP_REDIRECT_BASE", "/r/") . '{code:uuid}', [CodeController::class, 'redirect'])->name('codes.redirect');
-
-require __DIR__.'/auth.php';
