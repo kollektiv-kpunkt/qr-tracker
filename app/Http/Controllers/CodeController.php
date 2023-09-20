@@ -68,7 +68,7 @@ class CodeController extends Controller
     {
         $code->fg_colorRGB = sscanf($code->fg_color, "#%02x%02x%02x");
         $code->bg_colorRGB = sscanf($code->bg_color, "#%02x%02x%02x");
-        $qr = QRCode::size(500)->format("svg")->color($code->fg_colorRGB[0], $code->fg_colorRGB[1], $code->fg_colorRGB[2])->backgroundColor($code->bg_colorRGB[0], $code->bg_colorRGB[1], $code->bg_colorRGB[2])->generate(env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid . "qr=1");
+        $qr = QRCode::size(500)->format("svg")->color($code->fg_colorRGB[0], $code->fg_colorRGB[1], $code->fg_colorRGB[2])->backgroundColor($code->bg_colorRGB[0], $code->bg_colorRGB[1], $code->bg_colorRGB[2])->generate(env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid . "?qr=1");
         return view('codes.show', [
             "code" => $code,
             "qr" => $qr
@@ -154,7 +154,7 @@ class CodeController extends Controller
         $codes->each(function($code) use ($zip) {
             $code->fg_colorRGB = sscanf($code->fg_color, "#%02x%02x%02x");
             $code->bg_colorRGB = sscanf($code->bg_color, "#%02x%02x%02x");
-            $qr = QRCode::size(500)->format("svg")->color($code->fg_colorRGB[0], $code->fg_colorRGB[1], $code->fg_colorRGB[2])->backgroundColor($code->bg_colorRGB[0], $code->bg_colorRGB[1], $code->bg_colorRGB[2])->generate(env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid . "qr=1");
+            $qr = QRCode::size(500)->format("svg")->color($code->fg_colorRGB[0], $code->fg_colorRGB[1], $code->fg_colorRGB[2])->backgroundColor($code->bg_colorRGB[0], $code->bg_colorRGB[1], $code->bg_colorRGB[2])->generate(env("APP_URL") . env("APP_REDIRECT_BASE", "/r/") . $code->uuid . "?qr=1");
             $qr_name = str_replace(" ", "-", strtolower($code->name)) . '-' . $code->uuid . ".svg";
             $zip->addFromString($qr_name, $qr);
         });
