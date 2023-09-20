@@ -55,12 +55,16 @@
                     <td>{{$code->link}}</td>
                 </tr>
                 <tr>
-                    <td class="font-bold">{{__("Scans")}}</td>
+                    <td class="font-bold">{{__("Opens")}}</td>
                     <td>{{$code->scans}}</td>
                 </tr>
                 <tr>
-                    <td class="font-bold">{{__("Unique Scans")}}</td>
+                    <td class="font-bold">{{__("Unique Opens")}}</td>
                     <td>{{$code->u_scans}}</td>
+                </tr>
+                <tr>
+                    <td class="font-bold">{{__("QR Scans")}}</td>
+                    <td>{{$code->qr_scans}}</td>
                 </tr>
                 <tr>
                     <td class="font-bold">{{__("Copy Link:")}}</td>
