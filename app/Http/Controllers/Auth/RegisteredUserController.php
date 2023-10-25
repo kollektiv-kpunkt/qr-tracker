@@ -39,6 +39,14 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if (env("ALLOWED_DOMAINS")) {
+            $allowedDomains = explode(',', env("ALLOWED_DOMAINS"));
+            $emailDomain = explode('@', $request->email)[1];
+            if (!in_array($emailDomain, $allowedDomains)) {
+                return redirect()->back()->withErrors(['email' => 'Email domain is not allowed']);
+            }
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
