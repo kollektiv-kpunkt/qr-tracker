@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             $allowedDomains = explode(',', env("ALLOWED_DOMAINS"));
             $emailDomain = explode('@', $request->email)[1];
             if (!in_array($emailDomain, $allowedDomains)) {
-                return redirect()->back()->withErrors(['email' => 'Email domain is not allowed']);
+                return redirect()->back()->withErrors(['email' => 'Email domain is not allowed. Allowed domains are: '.env("ALLOWED_DOMAINS")]);
             }
         }
 
