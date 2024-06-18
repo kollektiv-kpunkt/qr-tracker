@@ -1,4 +1,4 @@
-name: pn69
+name: pn69.tmp
 type: laravel
 docroot: public
 php_version: "8.0"
